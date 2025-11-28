@@ -9,108 +9,114 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     /* ===== LIGHTBOX / ZOOM DE IMAGEM ===== */
-.lightbox{
-  position:fixed; inset:0; display:none; place-items:center;
-  background:rgba(0,0,0,.92); z-index:120; padding:min(6vw,24px);
-  backdrop-filter: blur(2px);
-}
-.lightbox.show{ display:grid; }
-.lightbox img{
-  max-width:100%; max-height:100%;
-  object-fit:contain; border-radius:14px;
-  touch-action:none;               /* permite arrastar quando zoom */
-  transform-origin:center center;
-  transition: transform .2s ease;
-  box-shadow: 0 20px 60px rgba(0,0,0,.6);
-}
-.lightbox .lb-close{
-  position:fixed; top:12px; right:12px;
-  border:none; border-radius:999px; padding:10px 14px;
-  font-weight:900; cursor:pointer; z-index:121;
-  background:#111; color:#fff; border:1px solid #333;
-}
-.lightbox .lb-hint{
-  position:fixed; bottom:12px; left:50%; transform:translateX(-50%);
-  color:#eaeaea; background:rgba(0,0,0,.3);
-  padding:8px 12px; border-radius:999px; font-size:12px;
-  border:1px solid rgba(255,255,255,.14)
-}
+    .lightbox{
+      position:fixed; inset:0; display:none; place-items:center;
+      background:rgba(0,0,0,.92); z-index:120; padding:min(6vw,24px);
+      backdrop-filter: blur(2px);
+    }
+    .lightbox.show{ display:grid; }
+    .lightbox img{
+      max-width:100%; max-height:100%;
+      object-fit:contain; border-radius:14px;
+      touch-action:none;               /* permite arrastar quando zoom */
+      transform-origin:center center;
+      transition: transform .2s ease;
+      box-shadow: 0 20px 60px rgba(0,0,0,.6);
+    }
+    .lightbox .lb-close{
+      position:fixed; top:12px; right:12px;
+      border:none; border-radius:999px; padding:10px 14px;
+      font-weight:900; cursor:pointer; z-index:121;
+      background:#111; color:#fff; border:1px solid #333;
+    }
+    .lightbox .lb-hint{
+      position:fixed; bottom:12px; left:50%; transform:translateX(-50%);
+      color:#eaeaea; background:rgba(0,0,0,.3);
+      padding:8px 12px; border-radius:999px; font-size:12px;
+      border:1px solid rgba(255,255,255,.14)
+    }
 
     /* ============================
-   AJUSTES MOBILE + IMAGENS
-   ============================ */
+       AJUSTES MOBILE + IMAGENS
+       ============================ */
 
-/* Foto em quadro estável (suporte moderno) */
-.card .img {
-  aspect-ratio: 1 / 1.2;
-  background:#0e0e11;
-}
+    /* Foto em quadro estável (suporte moderno) */
+    .card .img {
+      aspect-ratio: 1 / 1.2;
+      background:#0e0e11;
+    }
 
-.card .img img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
+    .card .img img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
 
-/* Fallback para celulares antigos que não suportam aspect-ratio */
-@supports not (aspect-ratio: 1 / 1) {
-  .card .img { height: 420px; }
-  @media (min-width: 768px) {
-    .card .img { height: 480px; }
-  }
-}
+    /* Fallback para celulares antigos que não suportam aspect-ratio */
+    @supports not (aspect-ratio: 1 / 1) {
+      .card .img { height: 420px; }
+      @media (min-width: 768px) {
+        .card .img { height: 480px; }
+      }
+    }
 
-/* ============================
-   FAB + RESPIRO DO CTA
-   ============================ */
+    /* ============================
+       FAB + RESPIRO DO CTA
+       ============================ */
 
-/* Respeita a safe-area do iPhone (borda inferior curva) */
-.fab {
-  bottom: calc(18px + env(safe-area-inset-bottom));
-}
+    /* Respeita a safe-area do iPhone (borda inferior curva) */
+    .fab {
+      bottom: calc(18px + env(safe-area-inset-bottom));
+    }
 
-/* Impede que o botão “Adicionar ao carrinho” fique escondido */
-.add {
-  margin: 12px 14px calc(18px + 64px);
-}
+    /* Impede que o botão “Adicionar ao carrinho” fique escondido */
+    .add {
+      margin: 12px 14px calc(18px + 64px);
+    }
 
-/* ============================
-   Toques mais responsivos
-   ============================ */
+    /* ============================
+       Toques mais responsivos
+       ============================ */
 
-button,
-.pill,
-.add,
-.swatch,
-.sizes button {
-  touch-action: manipulation;
-}
+    button,
+    .pill,
+    .add,
+    .swatch,
+    .sizes button {
+      touch-action: manipulation;
+    }
 
-/* ============================
-   Drawer altura real mobile
-   ============================ */
+    /* ============================
+       Drawer altura real mobile
+       ============================ */
 
-.panel {
-  height: 100svh; /* viewport estável */
-}
+    .panel {
+      height: 100svh; /* viewport estável */
+    }
 
-/* ============================
-   Sombra leve nas imagens
-   ============================ */
+    /* ============================
+       Sombra leve nas imagens
+       ============================ */
 
-.card .img img {
-  box-shadow: 0 0 14px rgba(255,105,180,0.12); /* rosé premium */
-}
+    .card .img img {
+      box-shadow: 0 0 14px rgba(255,105,180,0.12); /* rosé premium */
+      cursor: zoom-in; /* UX do zoom no card */
+    }
+    .lightbox.show img{ cursor: zoom-out; }
+    .lightbox.show img:active{ cursor: grabbing; }
 
-/* ============================
-   (Opcional) Buster de cache
-   Imagens sempre atualizando
-   ============================ */
-/* No JS, use:
-const imgUrl = (nomeArquivo) =>
-  BASE_IMG + encodeURIComponent(nomeArquivo).replace(/%2520/g, '%20') + '?v=4';
-*/
+    /* Primeira linha do carrinho com respiro */
+    #cartList{ padding-top: 6px; }
+
+    /* ============================
+       (Opcional) Buster de cache
+       Imagens sempre atualizando
+       ============================ */
+    /* No JS, use:
+    const imgUrl = (nomeArquivo) =>
+      BASE_IMG + encodeURIComponent(nomeArquivo).replace(/%2520/g, '%20') + '?v=4';
+    */
 
     :root{
       /* Tema BLACK FRIDAY */
@@ -231,30 +237,32 @@ const imgUrl = (nomeArquivo) =>
     footer{margin:40px 0 80px;color:var(--muted);text-align:center}
   </style>
 </head>
-<!-- Lightbox de Imagem (expansão/zoom) -->
-<div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Visualização da imagem ampliada">
-  <button class="lb-close" id="lbClose" aria-label="Fechar">✕</button>
-  <img id="lightboxImg" alt="Visualização do produto">
-  <div class="lb-hint">Toque duplo para ampliar • arraste para mover • Esc para fechar</div>
-</div>
 
 <body>
-  <header>
-    <div class="container bar">
-      <div class="logo">
-        <img src="https://i.imgur.com/0X0L4iQ.png" alt="Brasille">
-        <div>
-          <div class="brand">Brasille Moda Fit</div>
-          <div class="sub">Catálogo simples • protótipo</div>
-        </div>
-      </div>
-      <div class="row">
-        <a class="pill" id="btnPromo">Promoções</a>
-        <a class="pill" id="btnContato" href="#">Contato</a>
-        <a class="pill" id="btnPolitica" href="#politica">Política</a>
+  <!-- Lightbox de Imagem (expansão/zoom) — colocado no local correto -->
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Visualização da imagem ampliada">
+    <button class="lb-close" id="lbClose" aria-label="Fechar">✕</button>
+    <img id="lightboxImg" alt="Visualização do produto">
+    <div class="lb-hint">Toque duplo para ampliar • arraste para mover • Esc para fechar</div>
+  </div>
+
+ <header>
+  <div class="container bar">
+    <div class="logo">
+      <img src="./img/logo.png" alt="Brasille Moda Fit">
+      <div>
+        <div class="brand">Brasille Moda Fit</div>
+        <div class="sub">Até 40% de desconto</div>
       </div>
     </div>
-  </header>
+    <div class="row">
+      <a class="pill" id="btnPromo">Promoções</a>
+      <a class="pill" id="btnContato" href="#">Contato</a>
+      <a class="pill" id="btnPolitica" href="#politica">Política</a>
+    </div>
+  </div>
+</header>
+
 
   <main class="container">
     <section class="hero">
@@ -330,7 +338,7 @@ const imgUrl = (nomeArquivo) =>
 
   <script>
     // ===== CONFIGURAÇÕES RÁPIDAS =====
-    const STORE = 
+    const STORE =
     {
       nome: "Brasille Moda Fit",
       whatsapp: "+447448335013",                 // número oficial
@@ -349,439 +357,346 @@ const imgUrl = (nomeArquivo) =>
 
     // ===== PRODUTOS (com suporte a promoção) =====
     const produtos = [
-        {
-        id: "FIT222",
-        nome: "Conjunto VIVA Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+      {
+        id: "FIT222-A",
+        nome: "Conjunto VIVA Flor Brasil",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 1,
-        cores: [
-  { nome: "Azul", hex: "#1E90FF" }
-],
+        cores: [ { nome: "Azul", hex: "#1E90FF" } ],
         tamanhos: ["M"],
         imagem: "imagem3.png"
       },
       {
         id: "FIT221",
-        nome: "Conjunto VIVA Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto VIVA Flor Brasil",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 1,
-        cores: [
-  { nome: "Bronze", hex: "#CD7F32" },
-],
+        cores: [ { nome: "Bronze", hex: "#CD7F32" } ],
         tamanhos: ["M"],
         imagem: "imagem4.png"
       },
       {
-        id: "FIT222",
-        nome: "Conjunto VIVA Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        id: "FIT222-B",
+        nome: "Conjunto VIVA Flor Brasil",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 1,
-        cores: [
-  { nome: "Cinza", hex: "#A9A9A9" },
-],
+        cores: [ { nome: "Cinza", hex: "#A9A9A9" } ],
         tamanhos: ["P"],
         imagem: "imagem5.png"
       },
       {
         id: "FIT223",
-        nome: "Conjunto VIVA Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto VIVA Flor Brasil",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 1,
-        cores: [
-  { nome: "Preto", hex: "#111" }
-],
+        cores: [ { nome: "Preto", hex: "#111" } ],
         tamanhos: ["P"],
         imagem: "imagem6.png"
       },
       {
         id: "FIT224",
-        nome: "Conjunto VIVA Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto VIVA Flor Brasil",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 2,
-        cores: [
-  { nome: "Roxo", hex: "#8A2BE2" }
-],
+        cores: [ { nome: "Roxo", hex: "#8A2BE2" } ],
         tamanhos: ["P","M"],
         imagem: "imagem7.png"
       },
-    {
+      {
         id: "FIT226",
-        nome: "Conjunto Vitalize Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Vitalize Flor Brasil",
         preco: 40.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 1,
-        cores: [
-  { nome: "Cinza", hex: "#A9A9A9" },
-],
+        cores: [ { nome: "Cinza", hex: "#A9A9A9" } ],
         tamanhos: ["P"],
         imagem: "imagem9.png"
       },
       {
         id: "FIT227",
-        nome: "Conjunto Vitalize Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Vitalize Flor Brasil",
         preco: 40.00,
         precoPromo: 25.99,
         promocao: true,
         estoque: 1,
-        cores: [
-  { nome: "Roxo", hex: "#8A2BE2" },
-],
-        tamanhos: ["M",],
+        cores: [ { nome: "Roxo", hex: "#8A2BE2" } ],
+        tamanhos: ["M"],
         imagem: "imagem10.png"
       },
       {
         id: "FIT228",
-        nome: "Conjunto Bella Power Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Bella Power Flor Brasil",
         preco: 43.00,
         precoPromo: 34.99,
         promocao: true,
         estoque: 5,
-        cores: [
-  { nome: "Marrom", hex: "#8B4513" }
-],
+        cores: [ { nome: "Marrom", hex: "#8B4513" } ],
         tamanhos: ["M"],
         imagem: "imagem11.png"
       },
       {
         id: "FIT229",
-        nome: "Conjunto Bella Power Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Bella Power Flor Brasil",
         preco: 43.00,
         precoPromo: 34.99,
         promocao: true,
         estoque: 1,
-        cores: [
-  { nome: "Preto", hex: "#111" },
-],
+        cores: [ { nome: "Preto", hex: "#111" } ],
         tamanhos: ["P"],
         imagem: "imagem12.png"
       },
       {
         id: "FIT230",
-        nome: "Conjunto Bella Power Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Bella Power Flor Brasil",
         preco: 43.00,
         precoPromo: 34.99,
         promocao: true,
         estoque: 5,
-        cores: [
-  { nome: "Azul", hex: "#1E90FF" },
-],
+        cores: [ { nome: "Azul", hex: "#1E90FF" } ],
         tamanhos: ["M"],
         imagem: "imagem13.png"
       },
       {
         id: "FIT233",
-        nome: "Macacão Balance Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Macacão Balance Flor Brasil",
         preco: 45.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 5,
-        cores: [
-  { nome: "Marsala", hex: "#964F4C" } // Marsala oficial (Pantone 18-1438)
-],
+        cores: [ { nome: "Marsala", hex: "#964F4C" } ],
         tamanhos: ["M"],
         imagem: "imagem16.png"
       },
-     {
-        id: "FIT243",
-        nome: "Macacão Alfa Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+      {
+        id: "FIT243-P",
+        nome: "Macacão Alfa Flor Brasil",
         preco: 45.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 1,
-        cores: [
-  
-  { nome: "Vermelho", hex: "#FF0000" }
-],
+        cores: [ { nome: "Vermelho", hex: "#FF0000" } ],
         tamanhos: ["P"],
         imagem: "imagem27.png"
       },
-         {
-        id: "FIT243",
-        nome: "Macacão Alfa Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+      {
+        id: "FIT243-G",
+        nome: "Macacão Alfa Flor Brasil",
         preco: 45.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 1,
-        cores: [
-  { nome: "Vermelho", hex: "#FF0000" }
-],
+        cores: [ { nome: "Vermelho", hex: "#FF0000" } ],
         tamanhos: ["G"],
         imagem: "imagem26.png"
       },
-    
-{
+      {
         id: "FIT246",
-        nome: "Conjunto Atual Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Atual Flor Brasil",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 5,
-        cores: [
-  { nome: "Vinho", hex: "#8B0000" }
- 
-],
+        cores: [ { nome: "Vinho", hex: "#8B0000" } ],
         tamanhos: ["P"],
         imagem: "imagem30.png"
       },
-        {
+      {
         id: "FIT247",
-        nome: "Conjunto Atual Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Atual Flor Brasil",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 2,
-        cores: [
-  { nome: "Preto", hex: "#111" },
-],
+        cores: [ { nome: "Preto", hex: "#111" } ],
         tamanhos: ["M","G"],
         imagem: "imagem31.png"
       },
-          {
+      {
         id: "FIT251",
-        nome: "Conjunto Vibe Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Vibe Flor Brasil",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 1,
-        cores: [
-  { nome: "Preto", hex: "#111" },
-],
+        cores: [ { nome: "Preto", hex: "#111" } ],
         tamanhos: ["M"],
         imagem: "imagem35.png"
       },
-       {
-        id: "FIT250",
-        nome: "Conjunto Vibe Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+      {
+        id: "FIT250-34",
+        nome: "Conjunto Vibe Flor Brasil",
         preco: 45.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 2,
-        cores: [
-  { nome: "Cinza", hex: "#A9A9A9" },
-],
+        cores: [ { nome: "Cinza", hex: "#A9A9A9" } ],
         tamanhos: ["P","G"],
         imagem: "imagem34.png"
       },
       {
         id: "FIT249",
-        nome: "Conjunto Vibe Flor Brasil", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Vibe Flor Brasil",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 5,
-        cores: [
-  { nome: "Lavanda", hex: "#E6E6FA" },
-],
+        cores: [ { nome: "Lavanda", hex: "#E6E6FA" } ],
         tamanhos: ["P"],
         imagem: "imagem33.png"
       },
-       {
+      {
         id: "FIT255",
-        nome: "Conjunto Vibrance Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Vibrance Via Mafia",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 1,
-        cores: [
-    
-        { nome: "Verde", hex: "#B6FF42" },
-],
+        cores: [ { nome: "Verde", hex: "#B6FF42" } ],
         tamanhos: ["M"],
         imagem: "imagem37.png"
       },
       {
         id: "FIT258",
-        nome: "Macaquinho Wolf Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Macaquinho Wolf Via Mafia",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 1,
-        cores: [
-    
-        { nome: "Branco", hex: "#FFFFFF" },
-],
+        cores: [ { nome: "Branco", hex: "#FFFFFF" } ],
         tamanhos: ["M"],
         imagem: "imagem38.png"
       },
       {
         id: "FIT257",
-        nome: "Conjunto Authentic Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Authentic Via Mafia",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 1,
-        cores: [
-    
-        { nome: "Marrom", hex: "#8B4513" },
-],
+        cores: [ { nome: "Marrom", hex: "#8B4513" } ],
         tamanhos: ["M"],
         imagem: "imagem39.png"
       },
-         {
+      {
         id: "FIT256",
-        nome: "Conjunto Authentic Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+        nome: "Conjunto Authentic Via Mafia",
         preco: 43.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 2,
-        cores: [
-    
-        { nome: "Preto", hex: "#111" },
-],
+        cores: [ { nome: "Preto", hex: "#111" } ],
         tamanhos: ["M"],
         imagem: "imagem40.png"
       },
-       {
-        id: "FIT250",
-        nome: "Conjunto Panther Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+      {
+        id: "FIT250-41",
+        nome: "Conjunto Panther Via Mafia",
         preco: 40.00,
         precoPromo: 25.99,
         promocao: true,
         estoque: 2,
-        cores: [
-    
-        { nome: "Azul", hex: "#1E90FF" },
-],
+        cores: [ { nome: "Azul", hex: "#1E90FF" } ],
         tamanhos: ["M"],
         imagem: "imagem41.png"
-
       },
       {
-        id: "FIT252",
-        nome: "Conjunto Panther Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+        id: "FIT252-42",
+        nome: "Conjunto Panther Via Mafia",
         preco: 40.00,
         precoPromo: 25.99,
         promocao: true,
         estoque: 2,
-        cores: [
-    
-      
-      { nome: "Lilás", hex: "#C8A2C8" } // lilás clássico
-],
+        cores: [ { nome: "Lilás", hex: "#C8A2C8" } ],
         tamanhos: ["M"],
         imagem: "imagem42.png"
-
       },
       {
-        id: "FIT252",
-        nome: "Conjunto Panther Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+        id: "FIT252-43",
+        nome: "Conjunto Panther Via Mafia",
         preco: 40.00,
         precoPromo: 25.99,
         promocao: true,
         estoque: 2,
-        cores: [
-    
-       { nome: "Cinza", hex: "#A9A9A9" },
-],
+        cores: [ { nome: "Cinza", hex: "#A9A9A9" } ],
         tamanhos: ["M"],
         imagem: "imagem43.png"
-
       },
-        {
-        id: "FIT252",
-        nome: "Conjunto Panther Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+      {
+        id: "FIT252-44",
+        nome: "Conjunto Panther Via Mafia",
         preco: 40.00,
         precoPromo: 25.99,
         promocao: true,
         estoque: 2,
-        cores: [
-
-       { nome: "Preto", hex: "#111" },
-],
+        cores: [ { nome: "Preto", hex: "#111" } ],
         tamanhos: ["M"],
         imagem: "imagem44.png"
-
       },
-       {
-        id: "FIT252",
-        nome: "Conjunto Juicy Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+      {
+        id: "FIT252J-45",
+        nome: "Conjunto Juicy Via Mafia",
         preco: 40.00,
         precoPromo: 25.99,
         promocao: true,
         estoque: 2,
-        cores: [
-
-      { nome: "Cinza", hex: "#A9A9A9" },
-    
-],
+        cores: [ { nome: "Cinza", hex: "#A9A9A9" } ],
         tamanhos: ["M"],
         imagem: "imagem45.png"
-
       },
-         {
-        id: "FIT252",
-        nome: "Conjunto Juicy Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+      {
+        id: "FIT252J-47",
+        nome: "Conjunto Juicy Via Mafia",
         preco: 40.00,
         precoPromo: 28.99,
         promocao: true,
         estoque: 2,
-        cores: [
-
-    
-      { nome: "Azul", hex: "#1E90FF" },
-],
+        cores: [ { nome: "Azul", hex: "#1E90FF" } ],
         tamanhos: ["M"],
         imagem: "imagem47.png"
-
       },
       {
-        id: "FIT252",
-        nome: "Conjunto Shiled Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+        id: "FIT252S-46",
+        nome: "Conjunto Shiled Via Mafia",
         preco: 40.00,
         precoPromo: 25.99,
         promocao: true,
         estoque: 2,
-        cores: [
-
-    
-     { nome: "Vinho", hex: "#8B0000" },
-],
+        cores: [ { nome: "Vinho", hex: "#8B0000" } ],
         tamanhos: ["M"],
         imagem: "imagem46.png"
-
       },
-       {
-        id: "FIT252",
-        nome: "Conjunto Shiled Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+      {
+        id: "FIT253",
+        nome: "Conjunto Shiled Via Mafia",
         preco: 40.00,
         precoPromo: 25.99,
         promocao: true,
         estoque: 1,
-        cores: [
-
-    
-      { nome: "Vinho", hex: "#8B0000" },
-],
+        cores: [ { nome: "Vinho", hex: "#8B0000" } ],
         tamanhos: ["G"],
         imagem: "imagem48.png"
-
       },
-          {
-        id: "FIT252",
-        nome: "Conjunto Shiled Via Mafia", // MENSAGEM DE ULTIMAS UNIDADES
+      {
+        id: "FIT254",
+        nome: "Conjunto Shiled Via Mafia",
         preco: 40.00,
         precoPromo: 25.99,
         promocao: true,
         estoque: 1,
-        cores: [
-
-    
-      { nome: "Preto", hex: "#111" },
-],
+        cores: [ { nome: "Preto", hex: "#111" } ],
         tamanhos: ["M"],
         imagem: "imagem49.png"
-
       },
     ];
 
@@ -1002,80 +917,81 @@ const imgUrl = (nomeArquivo) =>
     // Ações rápidas
     document.querySelector('#btnContato').href = `https://wa.me/${STORE.whatsapp.replace(/\D/g,'')}`;
     document.querySelector('#y').textContent = new Date().getFullYear();
-/* ====== LIGHTBOX / ZOOM ====== */
-const lb = document.querySelector('#lightbox');
-const lbImg = document.querySelector('#lightboxImg');
-const lbClose = document.querySelector('#lbClose');
 
-function openLightbox(src){
-  lbImg.src = src;                 // se tiver imagem grande, use data-fullsrc
-  lb.classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
-function closeLightbox(){
-  lb.classList.remove('show');
-  document.body.style.overflow = '';
-  resetZoom();
-  // evita “fantasma” de imagem carregada
-  setTimeout(()=>{ lbImg.src=''; },150);
-}
+    /* ====== LIGHTBOX / ZOOM ====== */
+    const lb = document.querySelector('#lightbox');
+    const lbImg = document.querySelector('#lightboxImg');
+    const lbClose = document.querySelector('#lbClose');
 
-// abre ao clicar na imagem do card
-document.querySelector('#catalogo').addEventListener('click', (e)=>{
-  const img = e.target.closest('.card .img img');
-  if(!img) return;
-  // se quiser versão full, use: const full = img.dataset.full || img.src;
-  openLightbox(img.src);
-});
+    function openLightbox(src){
+      lbImg.src = src;                 // se tiver imagem grande, use data-fullsrc
+      lb.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(){
+      lb.classList.remove('show');
+      document.body.style.overflow = '';
+      resetZoom();
+      // evita “fantasma” de imagem carregada
+      setTimeout(()=>{ lbImg.src=''; },150);
+    }
 
-// fechar (overlay/background)
-lb.addEventListener('click', (e)=>{ if(e.target === lb) closeLightbox(); });
-lbClose.addEventListener('click', closeLightbox);
-window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLightbox(); });
+    // abre ao clicar na imagem do card
+    document.querySelector('#catalogo').addEventListener('click', (e)=>{
+      const img = e.target.closest('.card .img img');
+      if(!img) return;
+      // se quiser versão full, use: const full = img.dataset.full || img.src;
+      openLightbox(img.src);
+    });
 
-/* ====== ZOOM (duplo toque/click) + PAN (arrastar) ====== */
-let scale = 1;
-let panX = 0, panY = 0;
-let startX = 0, startY = 0;
-let panning = false;
-function applyTransform(){
-  lbImg.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-}
-function resetZoom(){
-  scale = 1; panX = 0; panY = 0; applyTransform();
-}
-function toggleZoom(){
-  const newScale = (scale === 1 ? 2 : 1);
-  scale = newScale;
-  // recentra leve ao voltar
-  if(scale === 1){ panX = 0; panY = 0; }
-  applyTransform();
-}
-let lastTap = 0;
-lbImg.addEventListener('click', (e)=>{
-  const now = Date.now();
-  if(now - lastTap < 300){ // duplo clique/toque
-    toggleZoom();
-  }
-  lastTap = now;
-});
+    // fechar (overlay/background)
+    lb.addEventListener('click', (e)=>{ if(e.target === lb) closeLightbox(); });
+    lbClose.addEventListener('click', closeLightbox);
+    window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLightbox(); });
 
-// pan com pointer events (iOS/Android/desktop)
-lbImg.addEventListener('pointerdown', (e)=>{
-  if(scale === 1) return; // só arrasta quando estiver ampliado
-  panning = true;
-  startX = e.clientX - panX;
-  startY = e.clientY - panY;
-  lbImg.setPointerCapture(e.pointerId);
-});
-lbImg.addEventListener('pointermove', (e)=>{
-  if(!panning || scale === 1) return;
-  panX = (e.clientX - startX);
-  panY = (e.clientY - startY);
-  applyTransform();
-});
-lbImg.addEventListener('pointerup', ()=>{ panning = false; });
-lbImg.addEventListener('pointercancel', ()=>{ panning = false; });
+    /* ====== ZOOM (duplo toque/click) + PAN (arrastar) ====== */
+    let scale = 1;
+    let panX = 0, panY = 0;
+    let startX = 0, startY = 0;
+    let panning = false;
+    function applyTransform(){
+      lbImg.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+    }
+    function resetZoom(){
+      scale = 1; panX = 0; panY = 0; applyTransform();
+    }
+    function toggleZoom(){
+      const newScale = (scale === 1 ? 2 : 1);
+      scale = newScale;
+      // recentra leve ao voltar
+      if(scale === 1){ panX = 0; panY = 0; }
+      applyTransform();
+    }
+    let lastTap = 0;
+    lbImg.addEventListener('click', (e)=>{
+      const now = Date.now();
+      if(now - lastTap < 300){ // duplo clique/toque
+        toggleZoom();
+      }
+      lastTap = now;
+    });
+
+    // pan com pointer events (iOS/Android/desktop)
+    lbImg.addEventListener('pointerdown', (e)=>{
+      if(scale === 1) return; // só arrasta quando estiver ampliado
+      panning = true;
+      startX = e.clientX - panX;
+      startY = e.clientY - panY;
+      lbImg.setPointerCapture(e.pointerId);
+    });
+    lbImg.addEventListener('pointermove', (e)=>{
+      if(!panning || scale === 1) return;
+      panX = (e.clientX - startX);
+      panY = (e.clientY - startY);
+      applyTransform();
+    });
+    lbImg.addEventListener('pointerup', ()=>{ panning = false; });
+    lbImg.addEventListener('pointercancel', ()=>{ panning = false; });
 
     // Inicialização (lendo ?promo=1)
     const qp = new URLSearchParams(location.search);
